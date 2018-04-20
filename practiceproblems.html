@@ -1,0 +1,183 @@
+HTML, CSS and Javascript
+For this section, you will be recreating a simple HTML page. You will demonstrate your knowledge of HTML, CSS, and Javascript, as well as with Network Requests.
+In a single HTML file:
+1. Write HTML tags for all of the elements you see in the images
+2. Style the HTML elements using CSS according to what you see in the images
+3. Write Javascript code that will handle Network Requests and DOM Manipulation. 
+
+Network requests should be done using the Fetch API. You can read up on it at: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+
+Do not use external libraries. Keep it vanilla.
+
+Helpful Information:
+CSS:
+1. The buttons are the same color as the background. Use a 1px solid gray border with a 2px radius.
+Javascript:
+1. Clicking "Send A Post" should send an http POST request to a fake website: "www.test.voyager.com/name". Since the website is fake, assume that it responds with "Hello [inputted name], great work so far!". Display the response as shown in the images below.
+2. Clicking "Grab A Video" should create a new card and inject it into the page. To get the video, you must send an http GET request to "www.test.voyager.com/video" (also a fake website). Since the website is fake, assume that it responds with a link to a youtube video (you may choose any video link). This video will also be injected into the page along with the card.
+3. As a reminder: you must use the Fetch API. Even though the requests will fail, you must still write the code as if they will succeed.
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>A Test</title>
+    <style>
+        body {
+            background-color: rgb(219, 243, 243);
+        }
+
+        .test {
+            background-color: white;
+            height: 200px;
+            width: 550px;
+            margin: auto;
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            box-shadow: 0px 2px 5px 0px rgba(130, 130, 130, 1);
+        }
+
+        iframe {
+            background-color: white;
+            display: block;
+            height: 200px;
+            width: 550px;
+            margin: auto;
+            margin-top: 20px;
+            box-shadow: 0px 2px 5px 0px rgba(130, 130, 130, 1);
+        }
+
+        .input {
+            border: 1px solid gray;
+            border-radius: 2px;
+            font-size: 14px;
+            height: 24px;
+        }
+
+        .button {
+            background-color: rgb(219, 243, 243);
+            border: 1px solid gray;
+            border-radius: 2px;
+            color: black;
+            padding: 5px 8px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        h2 {
+            padding-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test">
+        <h2>A Test</h2>
+        <form>
+            <input class="input" id="name" type="text" placeholder="Enter your Name">
+            <input class="button" id="send" type="button" value="Send A Post">
+        </form>
+        <br>
+        <button class="button" id="video" type="button">Grab A Video</button>
+        <h4></h4>
+    </div>
+    <script>
+
+        document.getElementById('send').addEventListener('click', displayText);
+        document.getElementById('video').addEventListener('click', displayVideo);
+        function displayText(e) {
+            e.preventDefault();
+            var name = document.getElementById("name").value;
+            fetch('www.test.voyager.com/name',
+                {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ name: name }),
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                }
+
+            )
+                .then(res => {
+                    document.getElementsByTagName("h4").value = "Hello" + name + ", great work so far!"
+                }
+                )
+
+        }
+        function displayVideo() {
+            var ifrm = document.createElement('iframe');
+            ifrm.setAttribute('id', 'test');
+            var el = document.getElementById('video');
+            el.parentNode.insertBefore(ifrm, el);
+            ifrm.setAttribute('src', 'https://www.youtube.com/embed/5CesWbbsTTM');
+            document.body.appendChild(ifrm);
+            
+            fetch('www.test.voyager.com/video', {
+                method: 'GET',
+            })
+                .then(res => displayVideo());
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
+
+<!-- What are some benefits of using a REST API? * -->
+
+<!-- What are some drawbacks of using a REST API? * -->
+
+<!-- Using the previous example: you should have used GET to retrieve a link from a server. 
+    The REST endpoint was "www.test.voyager.com/video". 
+    In the space below, write out the actual GET request. 
+    Make sure you include as much as you need to make it a valid request. 
+    After that, write what you would expect the server to respond with (assume that it is set up correctly) -->
+
+
+<!-- Using the previous example: you should have used POST to retrieve a messaged response from the server. 
+    The REST endpoint was "www.test.voyager.com/name". In the space below, write out the actual POST request. 
+    Make sure you include as much as you need to make it a valid request. 
+    After that, write what you would expect the server to respond with (assume that it is set up correctly) -->
+<!-- Write out a complete POST request: -->
+<!-- Write out the server's response: -->
+
+<!-- Scenario 1: You have added a new file and made changes to other files in a shared git repository. 
+    How do you implement your changes and update the repository. 
+    (enter your commands below as they would go into the bash shell) * -->
+
+<!-- Scenario 2: You would like to create a branch to develop some changes that would later be implemented on the master branch. 
+    How do you create a branch, navigate between different branches, and merge? 
+    (enter your commands below as they would go into the bash shell) * -->
+
+<!-- Scenario 3: You current local branch has grown to become a mess. 
+    How do you revert to the state of the remote branch? 
+    (enter your commands below as they would go into the bash shell) * -->
+
+<!-- What happens between the client and the server when a user logs in and logs out? Describe the process for Bearer Token authentication. -->
+
+<!-- What is the difference between an app server and a web server? -->
+
+<!-- Using SQL, write an efficient query to select all the records from a table named "Spacecraft" where the "Mass" is less than 100kg and the "Cost" is between $5,000 and $20,000. -->
+
+<!-- Explain the difference between relational and non-relational databases. -->
+
+<!-- In this scenario, say you have simple database of 5 spaceship components. 
+    Each component has a name, mass, cost, and ID. 
+    An unknown client sends a GET request for all of the information about component #5. 
+    In detailed pseudocode, write how the server should respond to this request. 
+    Include all relevant details to ensure a successful response to the client. -->
+
+<!-- What are the 4 principles of Object Oriented Programming? -->
+
+<!-- Write 4 user stories for your most recent project. -->
