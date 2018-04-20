@@ -11,13 +11,23 @@
             background-color: rgb(219, 243, 243);
         }
 
-        div.test {
+        .test {
             background-color: white;
             height: 200px;
             width: 550px;
             margin: auto;
             font-family: "Arial", sans-serif;
             text-align: center;
+            box-shadow: 0px 2px 5px 0px rgba(130, 130, 130, 1);
+        }
+
+        iframe {
+            background-color: white;
+            display: block;
+            height: 200px;
+            width: 550px;
+            margin: auto;
+            margin-top: 20px;
             box-shadow: 0px 2px 5px 0px rgba(130, 130, 130, 1);
         }
 
@@ -51,30 +61,54 @@
     <div class="test">
         <h2>A Test</h2>
         <form>
-            <input class="input" type="text" name="fname" placeholder="Enter your Name">
-            <input class="button" id="post" type="submit" value="Send A Post">
+            <input class="input" id="name" type="text" placeholder="Enter your Name">
+            <input class="button" id="send" type="button" value="Send A Post">
         </form>
         <br>
         <button class="button" id="video" type="button">Grab A Video</button>
-        <h4>Hello Applicant, great work so far!</h4>
+        <h4></h4>
     </div>
-    <!-- see: https://github.com/typicode/jsonplaceholder#how-to -->
     <script>
-        document.getElementById('post').addEventListener('submit', displayText);
+
+        document.getElementById('send').addEventListener('click', displayText);
         document.getElementById('video').addEventListener('click', displayVideo);
-        function displayText() {
-            fetch('https://jsonplaceholder.typicode.com/', {
-                method: 'POST',
-            }).then(function (res) {
-                    return res.blob();
-                })
-                .then(function (myJson) {
-                    console.log(myJson);
-                });
-        }
-        function getVideo() {
+        function displayText(e) {
+            e.preventDefault();
+            var name = document.getElementById("name").value;
+            fetch('www.test.voyager.com/name',
+                {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ name: name }),
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                }
+
+            )
+                .then(res => {
+                    document.getElementsByTagName("h4").value = "Hello" + name + ", great work so far!"
+                }
+                )
 
         }
+        function displayVideo() {
+            var ifrm = document.createElement('iframe');
+            ifrm.setAttribute('id', 'test');
+            var el = document.getElementById('video');
+            el.parentNode.insertBefore(ifrm, el);
+            ifrm.setAttribute('src', 'https://www.youtube.com/embed/5CesWbbsTTM');
+            document.body.appendChild(ifrm);
+            
+            fetch('www.test.voyager.com/video', {
+                method: 'GET',
+            })
+                .then(res => displayVideo());
+        }
+
+
+
+
 
     </script>
 </body>
